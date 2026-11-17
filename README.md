@@ -1,6 +1,6 @@
 # rice
 
-dwl (floating), fuzzel, foot. gruvbox dark, Go Mono, rio-style borders, no bar.
+dwl (floating), fuzzel, foot. gruvbox dark, JetBrains Mono, rio-style borders, no bar.
 
 ## Layout
 

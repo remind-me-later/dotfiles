@@ -40,8 +40,6 @@ let
     export XDG_CURRENT_DESKTOP=dwl
     export XDG_SESSION_DESKTOP=dwl
     export XDG_SESSION_TYPE=wayland
-    export XCURSOR_THEME=Adwaita
-    export XCURSOR_SIZE=24
     export MOZ_ENABLE_WAYLAND=1
     export NIXOS_OZONE_WL=1 # Electron/Chromium apps use Wayland
     export RICE_WALLPAPER=${./wallpaper.jpg}
@@ -73,7 +71,7 @@ in
   # Things GNOME (and later greetd) used to turn on for us
   hardware.graphics.enable = true; # mesa: wlroots can't render without it
   fonts.enableDefaultPackages = true;
-  fonts.packages = with pkgs; [ go-font noto-fonts noto-fonts-color-emoji noto-fonts-cjk-sans ];
+  fonts.packages = with pkgs; [ jetbrains-mono noto-fonts noto-fonts-color-emoji noto-fonts-cjk-sans ];
   services.upower.enable = true; # battery info for apps
   services.power-profiles-daemon.enable = true;
   services.gvfs.enable = true; # trash, network mounts in GTK file dialogs

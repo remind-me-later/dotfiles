@@ -1,6 +1,6 @@
-# User side of the rice: bash login, foot, fuzzel, mako in gruvbox + Go Mono.
+# User side of the rice: bash login, foot, fuzzel, mako in gruvbox + JetBrains Mono, cursor.
 # Imported from /etc/nixos/home.nix.
-{ ... }:
+{ pkgs, ... }:
 
 let
   # gruvbox dark
@@ -12,9 +12,19 @@ let
     bred = "fb4934"; bgreen = "b8bb26"; byellow = "fabd2f"; bblue = "83a598";
     bpurple = "d3869b"; baqua = "8ec07c"; bfg = "fbf1c7";
   };
-  font = "Go Mono";
+  font = "JetBrains Mono";
 in
 {
+  # Cursor. dwl loads the theme named "default" (not $XCURSOR_THEME), so this
+  # also creates icons/default -> Adwaita; without it wlroots falls back to a
+  # tiny built-in cursor that doesn't scale. Also sets XCURSOR_* and GTK's cursor.
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 24; # dwl scales it with the output (130% on the laptop)
+    gtk.enable = true;
+  };
+
   # Login on tty1 starts the dwl session; other ttys stay plain consoles.
   # When dwl quits you're logged out back to the login prompt.
   programs.bash = {
