@@ -1,4 +1,4 @@
-# User side of the rice: foot, fuzzel, mako, swaylock in gruvbox + Go Mono.
+# User side of the rice: bash login, foot, fuzzel, mako in gruvbox + Go Mono.
 # Imported from /etc/nixos/home.nix.
 { ... }:
 
@@ -15,6 +15,17 @@ let
   font = "Go Mono";
 in
 {
+  # Login on tty1 starts the dwl session; other ttys stay plain consoles.
+  # When dwl quits you're logged out back to the login prompt.
+  programs.bash = {
+    enable = true;
+    profileExtra = ''
+      if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+        exec rice-session
+      fi
+    '';
+  };
+
   programs.foot = {
     enable = true;
     settings = {
@@ -93,36 +104,4 @@ in
     border-color=#${c.bred}
     default-timeout=0
   '';
-
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      image = "${./wallpaper.jpg}";
-      scaling = "fill";
-      font = font;
-      indicator-radius = 80;
-      indicator-thickness = 8;
-      show-failed-attempts = true;
-      color = c.bg0;
-      inside-color = "${c.bg0}dd";
-      inside-clear-color = "${c.bg0}dd";
-      inside-ver-color = "${c.bg0}dd";
-      inside-wrong-color = "${c.bg0}dd";
-      ring-color = c.yellow;
-      ring-clear-color = c.bg3;
-      ring-ver-color = c.bblue;
-      ring-wrong-color = c.bred;
-      key-hl-color = c.byellow;
-      bs-hl-color = c.bred;
-      line-color = "00000000";
-      line-clear-color = "00000000";
-      line-ver-color = "00000000";
-      line-wrong-color = "00000000";
-      separator-color = "00000000";
-      text-color = c.fg;
-      text-clear-color = c.fg;
-      text-ver-color = c.fg;
-      text-wrong-color = c.bred;
-    };
-  };
 }

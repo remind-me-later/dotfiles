@@ -14,9 +14,9 @@ rice-batwatch &
 # dim after 5 min, lock after 10, suspend after 20; lock before any suspend
 swayidle -w \
 	timeout 300 'brightnessctl -q -s set 10%' resume 'brightnessctl -q -r' \
-	timeout 600 'swaylock -f' \
+	timeout 600 'rice-lock' \
 	timeout 1200 'systemctl suspend' \
-	before-sleep 'swaylock -f' \
-	lock 'swaylock -f' &
+	before-sleep 'rice-lock' \
+	lock 'rice-lock' &
 
 wait

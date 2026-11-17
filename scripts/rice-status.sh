@@ -134,7 +134,7 @@ power_menu() {
 	local choice
 	choice=$(printf '%s\n' lock suspend logout reboot poweroff | menu "power>") || exit 0
 	case $choice in
-	lock) swaylock -f ;;
+	lock) rice-lock ;;
 	suspend) systemctl suspend ;;
 	logout) pkill -TERM -x dwl ;;
 	reboot) systemctl reboot ;;

@@ -122,7 +122,7 @@ static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "fuzzel", NULL };
 static const char *statuscmd[] = { "rice-status", NULL };
 static const char *wificmd[] = { "rice-status", "wifi", NULL };
-static const char *lockcmd[] = { "swaylock", "-f", NULL };
+static const char *lockcmd[] = { "rice-lock", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */

@@ -8,10 +8,10 @@ dwl (floating), fuzzel, foot. gruvbox dark, Go Mono, rio-style borders, no bar.
 |---|---|
 | `dwl/` | dwl source, git submodule pinned to `v0.8` |
 | `dwl-config.h` | dwl `config.h` (keys, colors, floating default) |
-| `scripts/` | bash: status menu, battery watcher, screenshots, session startup |
-| `nixos.nix` | system module: builds dwl + scripts, GDM session, portals, fonts, PAM |
-| `home.nix` | home-manager module: foot, fuzzel, mako, swaylock config |
-| `wallpaper.jpg` | background, also used by swaylock |
+| `scripts/` | bash: status menu, lock, battery watcher, screenshots, session startup |
+| `nixos.nix` | system module: builds dwl + scripts, rice-session, portals, fonts, PAM |
+| `home.nix` | home-manager module: bash profile, foot, fuzzel, mako config |
+| `wallpaper.jpg` | background (swaybg) |
 
 ## Install
 
@@ -27,7 +27,7 @@ In `/etc/nixos/home.nix`:
 imports = [ /home/maurizio/Source/rice/home.nix ];
 ```
 
-Then `sudo nixos-rebuild switch`, log out, and pick **dwl (rice)** from the gear menu in GDM.
+Then `sudo nixos-rebuild switch`. There is no display manager: log in on tty1 and `~/.profile` runs `rice-session` (dwl). Other ttys (`Ctrl+Alt+F2`...) stay plain consoles; quitting dwl logs you out.
 
 Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after cloning.
 If `dwl/` is empty, the build fails.
@@ -40,7 +40,7 @@ If `dwl/` is empty, the build fails.
 | `Super+p` | fuzzel launcher |
 | `Super+s` | status menu (time, battery, wifi, volume, brightness, power) |
 | `Super+w` | wifi picker |
-| `Super+Escape` | lock |
+| `Super+Escape` | lock (physlock: text console, type your password) |
 | `Super+1..9` | view tag |
 | `Super+Shift+1..9` | move window to tag |
 | `Super+Ctrl+1..9` | also show tag |
