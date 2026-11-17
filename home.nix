@@ -24,6 +24,9 @@ in
         exec rice-session
       fi
     '';
+    initExtra = ''
+      PS1='$ '
+    '';
   };
 
   programs.foot = {
@@ -32,6 +35,7 @@ in
       main = {
         font = "${font}:size=14";
         pad = "4x4";
+        initial-window-size-chars = "80x24";
       };
       colors-dark = {
         background = c.bg0;

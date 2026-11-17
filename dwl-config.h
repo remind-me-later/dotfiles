@@ -10,7 +10,7 @@ static const unsigned int borderpx         = 4;  /* rio-style thick borders */
 /* gruvbox dark */
 static const float rootcolor[]             = COLOR(0x282828ff); /* bg0, behind swaybg */
 static const float bordercolor[]           = COLOR(0x665c54ff); /* bg3 */
-static const float focuscolor[]            = COLOR(0xd79921ff); /* yellow */
+static const float focuscolor[]            = COLOR(0xebdbb2ff); /* fg (white) */
 static const float urgentcolor[]           = COLOR(0xfb4934ff); /* bright red */
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
@@ -121,7 +121,6 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "fuzzel", NULL };
 static const char *statuscmd[] = { "rice-status", NULL };
-static const char *wificmd[] = { "rice-status", "wifi", NULL };
 static const char *lockcmd[] = { "rice-lock", NULL };
 
 static const Key keys[] = {
@@ -130,7 +129,6 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_p,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_s,           spawn,            {.v = statuscmd} },
-	{ MODKEY,                    XKB_KEY_w,           spawn,            {.v = wificmd} },
 	{ MODKEY,                    XKB_KEY_Escape,      spawn,            {.v = lockcmd} },
 
 	/* media keys */
@@ -189,5 +187,5 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	{ MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
 	{ MODKEY, BTN_MIDDLE, togglefloating, {0} },
-	{ MODKEY, BTN_RIGHT,  moveresize,     {.ui = CurResize} },
+	{ MODKEY|WLR_MODIFIER_ALT, BTN_LEFT, moveresize, {.ui = CurResize} },
 };

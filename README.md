@@ -39,7 +39,6 @@ If `dwl/` is empty, the build fails.
 | `Super+Return` | foot |
 | `Super+p` | fuzzel launcher |
 | `Super+s` | status menu (time, battery, wifi, volume, brightness, power) |
-| `Super+w` | wifi picker |
 | `Super+Escape` | lock (physlock: text console, type your password) |
 | `Super+1..9` | view tag |
 | `Super+Shift+1..9` | move window to tag |
@@ -47,7 +46,7 @@ If `dwl/` is empty, the build fails.
 | `Super+0` | view all tags |
 | `Super+Tab` | previous tag |
 | `Super+j` / `Super+k` | focus next / previous window |
-| `Super+drag` / `Super+right-drag` | move / resize window |
+| `Super+drag` / `Super+Alt+drag` | move / resize window |
 | `Super+middle-click` / `Super+Shift+space` | toggle floating |
 | `Super+e` | fullscreen |
 | `Super+t` / `Super+f` / `Super+m` | tile / float / monocle layout |
