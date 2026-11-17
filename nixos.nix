@@ -40,7 +40,12 @@ let
     export NIXOS_OZONE_WL=1 # Electron/Chromium apps use Wayland
     export RICE_WALLPAPER=${./wallpaper.jpg}
     export RICE_POLKIT_AGENT=${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
-    exec ${lib.getExe dwl} -s ${lib.getExe rice-startup}
+    # dwl's (and every app's) stderr goes to the journal: journalctl -t dwl
+    if ! ${pkgs.systemd}/bin/systemd-cat -t dwl --stderr-priority=err \
+        ${lib.getExe dwl} -s ${lib.getExe rice-startup}; then
+      echo "dwl exited with an error, see: journalctl -t dwl -b"
+      read -rp "press enter to log out "
+    fi
   '';
 in
 {
@@ -59,7 +64,8 @@ in
   # Unlock the keyring with the console login password.
   security.pam.services.login.enableGnomeKeyring = true;
 
-  # Things GNOME used to turn on for us
+  # Things GNOME (and later greetd) used to turn on for us
+  hardware.graphics.enable = true; # mesa: wlroots can't render without it
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [ go-font noto-fonts noto-fonts-color-emoji noto-fonts-cjk-sans ];
   services.upower.enable = true; # battery info for apps
