@@ -27,12 +27,14 @@ let
 
   rice-lock = script "rice-lock" (with pkgs; [ procps coreutils ]);
 
+  rice-wallpaper = script "rice-wallpaper" (with pkgs; [ swaybg procps util-linux coreutils ]);
+
   rice-batwatch = script "rice-batwatch" (with pkgs; [ coreutils libnotify ]);
 
   rice-shot = script "rice-shot" (with pkgs; [ grim slurp wl-clipboard libnotify coreutils ]);
 
   rice-startup = script "rice-startup" (with pkgs; [
-    dbus swaybg mako swayidle brightnessctl systemd rice-batwatch rice-lock
+    dbus mako swayidle brightnessctl systemd rice-batwatch rice-lock rice-wallpaper
   ]);
 
   # Started from ~/.profile after logging in on tty1 (see home.nix).
@@ -41,7 +43,6 @@ let
     export XDG_SESSION_DESKTOP=dwl
     export XDG_SESSION_TYPE=wayland
     export NIXOS_OZONE_WL=1 # Electron/Chromium apps use Wayland
-    export RICE_WALLPAPER=${./wallpaper.jpg}
     export RICE_POLKIT_AGENT=${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
     # dwl's (and every app's) stderr goes to the journal: journalctl -t dwl
     if ! ${pkgs.systemd}/bin/systemd-cat -t dwl --stderr-priority=err \
@@ -57,6 +58,7 @@ in
     rice-status
     rice-shot
     rice-lock
+    rice-wallpaper
     pkgs.wl-clipboard
     pkgs.brightnessctl
     pkgs.adwaita-icon-theme # cursor theme, needed once GNOME is gone

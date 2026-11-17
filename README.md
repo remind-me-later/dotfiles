@@ -8,10 +8,9 @@ dwl (floating), fuzzel, foot. gruvbox dark, JetBrains Mono, rio-style borders, n
 |---|---|
 | `dwl/` | dwl source, git submodule pinned to `v0.9` |
 | `dwl-config.h` | dwl `config.h` (keys, colors, floating default) |
-| `scripts/` | bash: status menu, lock, battery watcher, screenshots, session startup |
+| `scripts/` | bash: status menu, lock, wallpaper, battery watcher, screenshots, session startup |
 | `nixos.nix` | system module: builds dwl + scripts, rice-session, portals, fonts, PAM |
 | `home.nix` | home-manager module: bash profile, foot, fuzzel, mako config |
-| `wallpaper.jpg` | background (swaybg) |
 
 ## Install
 
@@ -31,6 +30,16 @@ Then `sudo nixos-rebuild switch`. There is no display manager: log in on tty1 an
 
 Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after cloning.
 If `dwl/` is empty, the build fails.
+
+## Wallpaper
+
+Not in the repo. Put any image at `~/.config/rice/wallpaper` (no extension needed);
+without it the background is flat `#282828`. To change it without logging out:
+
+```sh
+rice-wallpaper ~/Pictures/new.jpg   # copies it there and reloads swaybg
+rice-wallpaper                      # just reload
+```
 
 ## Keys (Super = mod)
 

@@ -6,7 +6,7 @@
 dbus-update-activation-environment --systemd \
 	WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XCURSOR_THEME XCURSOR_SIZE
 
-swaybg -i "$RICE_WALLPAPER" -m fill &
+rice-wallpaper # ~/.config/rice/wallpaper, or flat bg0 if missing
 mako &
 "$RICE_POLKIT_AGENT" &
 rice-batwatch &
