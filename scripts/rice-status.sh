@@ -1,6 +1,6 @@
 # rice-status: a status bar that lives in a fuzzel menu.
-#   rice-status        show time/battery/wifi/volume/brightness, pick a line to act on it
-#   rice-status wifi   jump straight to the wifi picker
+# Shows time/battery/wifi/volume/brightness; pick a line to act on it
+# (wifi opens nmtui in foot).
 
 menu() { # menu PROMPT  (reads entries on stdin, prints the chosen one)
 	fuzzel --dmenu --minimal-lines --prompt "$1 " "${@:2}"
@@ -63,58 +63,6 @@ light_line() { brightnessctl -m | cut -d, -f4; }
 
 ## submenus ##################################################################
 
-wifi_menu() {
-	local choice ssid known
-	notify -t 1500 "wifi" "scanning..."
-	choice=$(
-		{
-			if [[ $(nmcli radio wifi) == enabled ]]; then
-				echo "turn wifi off"
-				# IN-USE:SIGNAL:SECURITY:SSID (only the SSID can contain '\:')
-				# -> "> 72% * My Net"   (> = connected, * = needs a password)
-				# stable sort puts the in-use access point first, so the
-				# dedup below keeps it when one SSID has several APs
-				nmcli -t -f IN-USE,SIGNAL,SECURITY,SSID device wifi list --rescan yes |
-					sort -s -t: -k1,1r |
-					awk -F: '{ ssid = $0; sub(/^([^:]*:){3}/, "", ssid) }
-						ssid != "" && !seen[ssid]++ {
-							lock = ($3 == "" || $3 == "--") ? " " : "*"
-							printf "%s %3s%% %s %s\n", ($1 == "*" ? ">" : " "), $2, lock, ssid
-						}'
-			else
-				echo "turn wifi on"
-			fi
-		} | menu "wifi>"
-	) || exit 0
-
-	case $choice in
-	"turn wifi off") nmcli radio wifi off; return ;;
-	"turn wifi on") nmcli radio wifi on; return ;;
-	esac
-
-	# "> 72% * My Net" -> "My Net"
-	ssid=${choice:9}
-	ssid=${ssid//\\:/:}
-	known=$(nmcli -t -f NAME connection show | grep -Fxc -- "$ssid" || true)
-
-	local cmd
-	if ((known > 0)); then
-		cmd=(nmcli connection up id "$ssid")
-	elif [[ ${choice:7:1} == "*" ]]; then
-		local pass
-		pass=$(fuzzel --dmenu --password --prompt-only "password for $ssid: " </dev/null) || exit 0
-		cmd=(nmcli device wifi connect "$ssid" password "$pass")
-	else
-		cmd=(nmcli device wifi connect "$ssid")
-	fi
-
-	if "${cmd[@]}" >/dev/null 2>&1; then
-		notify "wifi" "connected to $ssid"
-	else
-		notify -u critical "wifi" "could not connect to $ssid"
-	fi
-}
-
 volume_menu() {
 	local choice
 	choice=$(printf '%s\n' "toggle mute" 100 75 50 25 10 | menu "volume>") || exit 0
@@ -144,12 +92,6 @@ power_menu() {
 
 ## main ######################################################################
 
-case ${1:-} in
-wifi) wifi_menu; exit ;;
-"") ;;
-*) echo "usage: rice-status [wifi]" >&2; exit 1 ;;
-esac
-
 choice=$(
 	printf '%-8s %s\n' \
 		time "$(date '+%H:%M  %a %d %b')" \
@@ -164,7 +106,7 @@ choice=$(
 case ${choice%% *} in
 time) notify -t 10000 "$(date '+%A %d %B %Y')" "$(cal)" ;;
 battery) notify "battery" "$(battery_line)" ;;
-wifi) wifi_menu ;;
+wifi) exec foot nmtui ;;
 volume) volume_menu ;;
 light) light_menu ;;
 power) power_menu ;;

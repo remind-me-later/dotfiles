@@ -38,7 +38,7 @@ If `dwl/` is empty, the build fails.
 |---|---|
 | `Super+Return` | foot |
 | `Super+p` | fuzzel launcher |
-| `Super+s` | status menu (time, battery, wifi, volume, brightness, power) |
+| `Super+s` | status menu (time, battery, wifi → nmtui, volume, brightness, power) |
 | `Super+Escape` | lock (physlock: text console, type your password) |
 | `Super+1..9` | view tag |
 | `Super+Shift+1..9` | move window to tag |

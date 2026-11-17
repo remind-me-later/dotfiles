@@ -40,7 +40,6 @@ let
     export XDG_CURRENT_DESKTOP=dwl
     export XDG_SESSION_DESKTOP=dwl
     export XDG_SESSION_TYPE=wayland
-    export MOZ_ENABLE_WAYLAND=1
     export NIXOS_OZONE_WL=1 # Electron/Chromium apps use Wayland
     export RICE_WALLPAPER=${./wallpaper.jpg}
     export RICE_POLKIT_AGENT=${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
@@ -60,7 +59,6 @@ in
     rice-lock
     pkgs.wl-clipboard
     pkgs.brightnessctl
-    pkgs.libnotify
     pkgs.adwaita-icon-theme # cursor theme, needed once GNOME is gone
   ];
 
@@ -72,9 +70,7 @@ in
   hardware.graphics.enable = true; # mesa: wlroots can't render without it
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [ jetbrains-mono noto-fonts noto-fonts-color-emoji noto-fonts-cjk-sans ];
-  services.upower.enable = true; # battery info for apps
-  services.power-profiles-daemon.enable = true;
-  services.gvfs.enable = true; # trash, network mounts in GTK file dialogs
+  services.power-profiles-daemon.enable = true; # powerprofilesctl set power-saver|balanced|performance
 
   # screen sharing / screenshots via wlr, everything else (file pickers...) via gtk
   xdg.portal = {
