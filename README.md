@@ -6,7 +6,7 @@ dwl (floating), fuzzel, foot. gruvbox dark, Go Mono, rio-style borders, no bar.
 
 | Path | What |
 |---|---|
-| `dwl/` | dwl source, git submodule pinned to `v0.8` |
+| `dwl/` | dwl source, git submodule pinned to `v0.9` |
 | `dwl-config.h` | dwl `config.h` (keys, colors, floating default) |
 | `scripts/` | bash: status menu, lock, battery watcher, screenshots, session startup |
 | `nixos.nix` | system module: builds dwl + scripts, rice-session, portals, fonts, PAM |
@@ -51,15 +51,15 @@ If `dwl/` is empty, the build fails.
 | `Super+e` | fullscreen |
 | `Super+t` / `Super+f` / `Super+m` | tile / float / monocle layout |
 | `Super+Shift+c` | close window |
-| `Super+Shift+q` | quit dwl |
+| `Super+Shift+q` or `Ctrl+Alt+Backspace` | quit dwl |
 | `Print` / `Shift+Print` | screenshot screen / area → `~/Pictures/screenshots` + clipboard |
-| volume / brightness keys | wpctl / brightnessctl |
+| volume / brightness keys, `Super+scroll` | wpctl / brightnessctl |
 
 ## Updating dwl
 
 ```sh
-git -C dwl fetch --tags && git -C dwl checkout v0.9
+git -C dwl fetch --tags && git -C dwl checkout v0.10
 # rebase dwl-config.h onto the new dwl/config.def.h, then rebuild
 ```
 
-nixpkgs' dwl recipe is reused (deps, make flags), so a big dwl bump may also need a newer wlroots.
+nixpkgs' dwl recipe is reused (deps, make flags) with `wlroots` swapped in `nixos.nix`; a dwl bump usually means bumping that wlroots too (0.9 needs 0.20).

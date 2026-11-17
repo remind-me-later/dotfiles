@@ -3,9 +3,15 @@
 { lib, pkgs, ... }:
 
 let
-  # dwl built from the ./dwl submodule (pinned to v0.8) with our config.h
-  dwl = (pkgs.dwl.override { configH = ./dwl-config.h; }).overrideAttrs (_: {
+  # dwl built from the ./dwl submodule (pinned to v0.9) with our config.h.
+  # nixpkgs' recipe is reused but always against wlroots 0.20, which 0.9
+  # needs, so it builds the same on stable (dwl 0.8 recipe) and unstable.
+  dwl = (pkgs.dwl.override { configH = ./dwl-config.h; }).overrideAttrs (old: {
+    version = "0.9";
     src = lib.cleanSource ./dwl;
+    buildInputs = map
+      (p: if (p.pname or "") == "wlroots" then pkgs.wlroots_0_20 else p)
+      old.buildInputs;
   });
 
   script = name: runtimeInputs:
