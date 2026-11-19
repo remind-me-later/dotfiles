@@ -62,6 +62,16 @@ in
     };
   };
 
+  # Only the look; neovim itself is enabled in /etc/nixos/home.nix.
+  programs.neovim.plugins = [{
+    plugin = pkgs.vimPlugins.gruvbox-nvim;
+    type = "lua";
+    config = ''
+      vim.o.background = "dark"
+      vim.cmd.colorscheme("gruvbox")
+    '';
+  }];
+
   programs.fuzzel = {
     enable = true;
     settings = {
