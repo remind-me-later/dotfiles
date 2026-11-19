@@ -44,7 +44,7 @@ in
     settings = {
       main = {
         font = "${font}:size=14";
-        pad = "4x4";
+        pad = "12x12 center"; # inner border around the text
         initial-window-size-chars = "80x24";
       };
       colors-dark = {
@@ -71,9 +71,9 @@ in
         icons-enabled = "no";
         width = 44;
         lines = 12;
-        horizontal-pad = 12;
-        vertical-pad = 8;
-        inner-pad = 6;
+        horizontal-pad = 24;
+        vertical-pad = 16;
+        inner-pad = 12; # gap between the prompt and the list
         layer = "overlay";
       };
       colors = {
@@ -87,7 +87,7 @@ in
         selection-text = "${c.fg}ff";
         selection-match = "${c.byellow}ff";
         counter = "${c.gray}ff";
-        border = "${c.yellow}ff";
+        border = "${c.fg}ff";
       };
       border = {
         width = 4;
