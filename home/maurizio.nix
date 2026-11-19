@@ -68,8 +68,6 @@
     nix-direnv.enable = true;
   };
 
-  programs.ncspot.enable = true; # Spotify in the terminal (needs Premium)
-
   programs.home-manager.enable = true;
   home.stateVersion = "26.05";
 }
