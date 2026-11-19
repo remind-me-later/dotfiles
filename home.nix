@@ -19,6 +19,7 @@ in
   # also creates icons/default -> Adwaita; without it wlroots falls back to a
   # tiny built-in cursor that doesn't scale. Also sets XCURSOR_* and GTK's cursor.
   home.pointerCursor = {
+    enable = true;
     name = "Adwaita";
     package = pkgs.adwaita-icon-theme;
     size = 24; # dwl scales it with the output (130% on the laptop)
