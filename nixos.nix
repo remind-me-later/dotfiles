@@ -9,6 +9,9 @@ let
   dwl = (pkgs.dwl.override { configH = ./dwl-config.h; }).overrideAttrs (old: {
     version = "0.9";
     src = lib.cleanSource ./dwl;
+    patches = (old.patches or [ ]) ++ [
+      ./patches/center-windows.patch # new windows open centered
+    ];
     buildInputs = map
       (p: if (p.pname or "") == "wlroots" then pkgs.wlroots_0_20 else p)
       old.buildInputs;

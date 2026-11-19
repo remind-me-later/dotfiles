@@ -1,0 +1,18 @@
+diff --git a/dwl.c b/dwl.c
+index 4cfd0fd..f7382cc 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -1921,6 +1921,13 @@ mapnotify(struct wl_listener *listener, void *data)
+ 		c->capture.image_capture_scene_surface = wlr_scene_surface_create(&c->image_capture_scene->tree, c->surface.xwayland->surface);
+ #endif
+ 
++	/* Open new windows centered on the screen, dialogs centered over
++	 * their parent. Windows bigger than the screen are clamped later. */
++	if ((w = client_get_parent(c)) || selmon) {
++		struct wlr_box *area = w ? &w->geom : &selmon->w;
++		c->geom.x = area->x + (area->width - c->geom.width) / 2;
++		c->geom.y = area->y + (area->height - c->geom.height) / 2;
++	}
+ 
+ 	/* Set initial monitor, tags, floating status, and focus:
+ 	 * we always consider floating, clients that have parent and thus

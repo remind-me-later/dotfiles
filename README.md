@@ -8,6 +8,7 @@ dwl (floating), fuzzel, foot. gruvbox dark, JetBrains Mono, rio-style borders, n
 |---|---|
 | `dwl/` | dwl source, git submodule pinned to `v0.9` |
 | `dwl-config.h` | dwl `config.h` (keys, colors, floating default) |
+| `patches/` | patches applied to dwl at build time (center new windows) |
 | `scripts/` | bash: status menu, lock, wallpaper, battery watcher, screenshots, session startup |
 | `nixos.nix` | system module: builds dwl + scripts, rice-session, portals, fonts, PAM |
 | `home.nix` | home-manager module: bash profile, foot, fuzzel, mako config |
