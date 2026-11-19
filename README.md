@@ -73,3 +73,9 @@ git -C dwl fetch --tags && git -C dwl checkout v0.10
 ```
 
 nixpkgs' dwl recipe is reused (deps, make flags) with `wlroots` swapped in `nixos.nix`; a dwl bump usually means bumping that wlroots too (0.9 needs 0.20).
+
+## License
+
+BSD 2-Clause, see `LICENSE`, except the files derived from dwl, which keep
+dwl's GPL-3.0 license: `dwl-config.h` (based on dwl's `config.def.h`) and
+everything in `patches/`. dwl itself (`dwl/` submodule) is GPL-3.0.
