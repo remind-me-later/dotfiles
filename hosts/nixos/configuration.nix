@@ -61,4 +61,7 @@
 
   # For Kani's downloaded CBMC binaries.
   programs.nix-ld.enable = true;
+
+  # nvim is the editor (home/maurizio.nix)
+  programs.nano.enable = false;
 }

@@ -117,8 +117,6 @@ in
   fonts.packages = with pkgs; [
     jetbrains-mono
     noto-fonts
-    noto-fonts-color-emoji
-    noto-fonts-cjk-sans
   ];
   services.power-profiles-daemon.enable = true; # powerprofilesctl set power-saver|balanced|performance
 
