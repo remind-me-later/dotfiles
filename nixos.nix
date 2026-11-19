@@ -12,32 +12,80 @@ let
     patches = (old.patches or [ ]) ++ [
       ./patches/center-windows.patch # new windows open centered
     ];
-    buildInputs = map
-      (p: if (p.pname or "") == "wlroots" then pkgs.wlroots_0_20 else p)
-      old.buildInputs;
+    buildInputs = map (
+      p: if (p.pname or "") == "wlroots" then pkgs.wlroots_0_20 else p
+    ) old.buildInputs;
   });
 
-  script = name: runtimeInputs:
+  script =
+    name: runtimeInputs:
     pkgs.writeShellApplication {
       inherit name runtimeInputs;
       text = builtins.readFile ./scripts/${name}.sh;
     };
 
-  rice-status = script "rice-status" (with pkgs; [
-    fuzzel networkmanager wireplumber brightnessctl coreutils gawk
-  ]);
+  rice-status = script "rice-status" (
+    with pkgs;
+    [
+      fuzzel
+      networkmanager
+      wireplumber
+      brightnessctl
+      coreutils
+      gawk
+    ]
+  );
 
-  rice-lock = script "rice-lock" (with pkgs; [ procps coreutils ]);
+  rice-lock = script "rice-lock" (
+    with pkgs;
+    [
+      procps
+      coreutils
+    ]
+  );
 
-  rice-wallpaper = script "rice-wallpaper" (with pkgs; [ swaybg procps util-linux coreutils ]);
+  rice-wallpaper = script "rice-wallpaper" (
+    with pkgs;
+    [
+      swaybg
+      procps
+      util-linux
+      coreutils
+    ]
+  );
 
-  rice-batwatch = script "rice-batwatch" (with pkgs; [ coreutils libnotify ]);
+  rice-batwatch = script "rice-batwatch" (
+    with pkgs;
+    [
+      coreutils
+      libnotify
+    ]
+  );
 
-  rice-shot = script "rice-shot" (with pkgs; [ grim slurp wl-clipboard libnotify coreutils ]);
+  rice-shot = script "rice-shot" (
+    with pkgs;
+    [
+      grim
+      slurp
+      wl-clipboard
+      libnotify
+      coreutils
+    ]
+  );
 
-  rice-startup = script "rice-startup" (with pkgs; [
-    dbus mako swayidle brightnessctl systemd rice-batwatch rice-lock rice-wallpaper
-  ]);
+  rice-startup = script "rice-startup" (
+    with pkgs;
+    [
+      dbus
+      mako
+      swayidle
+      brightnessctl
+      systemd
+      rice-batwatch
+      rice-lock
+      rice-wallpaper
+    ]
+  );
 
   # Started from ~/.profile after logging in on tty1 (see home.nix).
   rice-session = pkgs.writeShellScriptBin "rice-session" ''
@@ -73,7 +121,12 @@ in
   # Things GNOME (and later greetd) used to turn on for us
   hardware.graphics.enable = true; # mesa: wlroots can't render without it
   fonts.enableDefaultPackages = true;
-  fonts.packages = with pkgs; [ jetbrains-mono noto-fonts noto-fonts-color-emoji noto-fonts-cjk-sans ];
+  fonts.packages = with pkgs; [
+    jetbrains-mono
+    noto-fonts
+    noto-fonts-color-emoji
+    noto-fonts-cjk-sans
+  ];
   services.power-profiles-daemon.enable = true; # powerprofilesctl set power-saver|balanced|performance
 
   # screen sharing / screenshots via wlr, everything else (file pickers...) via gtk
@@ -81,7 +134,10 @@ in
     enable = true;
     wlr.enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config.dwl.default = [ "wlr" "gtk" ];
+    config.dwl.default = [
+      "wlr"
+      "gtk"
+    ];
   };
 
   security.polkit.enable = true;

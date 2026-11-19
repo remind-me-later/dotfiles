@@ -5,12 +5,27 @@
 let
   # gruvbox dark
   c = {
-    bg0 = "282828"; bg1 = "3c3836"; bg2 = "504945"; bg3 = "665c54";
-    fg = "ebdbb2"; fg4 = "a89984"; gray = "928374";
-    red = "cc241d"; green = "98971a"; yellow = "d79921"; blue = "458588";
-    purple = "b16286"; aqua = "689d6a"; orange = "d65d0e";
-    bred = "fb4934"; bgreen = "b8bb26"; byellow = "fabd2f"; bblue = "83a598";
-    bpurple = "d3869b"; baqua = "8ec07c"; bfg = "fbf1c7";
+    bg0 = "282828";
+    bg1 = "3c3836";
+    bg2 = "504945";
+    bg3 = "665c54";
+    fg = "ebdbb2";
+    fg4 = "a89984";
+    gray = "928374";
+    red = "cc241d";
+    green = "98971a";
+    yellow = "d79921";
+    blue = "458588";
+    purple = "b16286";
+    aqua = "689d6a";
+    orange = "d65d0e";
+    bred = "fb4934";
+    bgreen = "b8bb26";
+    byellow = "fabd2f";
+    bblue = "83a598";
+    bpurple = "d3869b";
+    baqua = "8ec07c";
+    bfg = "fbf1c7";
   };
   font = "JetBrains Mono";
 in
@@ -54,23 +69,37 @@ in
         cursor = "${c.bg0} ${c.fg}";
         selection-background = c.bg2;
         selection-foreground = c.fg;
-        regular0 = c.bg0; regular1 = c.red; regular2 = c.green; regular3 = c.yellow;
-        regular4 = c.blue; regular5 = c.purple; regular6 = c.aqua; regular7 = c.fg4;
-        bright0 = c.gray; bright1 = c.bred; bright2 = c.bgreen; bright3 = c.byellow;
-        bright4 = c.bblue; bright5 = c.bpurple; bright6 = c.baqua; bright7 = c.fg;
+        regular0 = c.bg0;
+        regular1 = c.red;
+        regular2 = c.green;
+        regular3 = c.yellow;
+        regular4 = c.blue;
+        regular5 = c.purple;
+        regular6 = c.aqua;
+        regular7 = c.fg4;
+        bright0 = c.gray;
+        bright1 = c.bred;
+        bright2 = c.bgreen;
+        bright3 = c.byellow;
+        bright4 = c.bblue;
+        bright5 = c.bpurple;
+        bright6 = c.baqua;
+        bright7 = c.fg;
       };
     };
   };
 
   # Only the look; neovim itself is enabled in /etc/nixos/home.nix.
-  programs.neovim.plugins = [{
-    plugin = pkgs.vimPlugins.gruvbox-nvim;
-    type = "lua";
-    config = ''
-      vim.o.background = "dark"
-      vim.cmd.colorscheme("gruvbox")
-    '';
-  }];
+  programs.neovim.plugins = [
+    {
+      plugin = pkgs.vimPlugins.gruvbox-nvim;
+      type = "lua";
+      config = ''
+        vim.o.background = "dark"
+        vim.cmd.colorscheme("gruvbox")
+      '';
+    }
+  ];
 
   programs.fuzzel = {
     enable = true;
