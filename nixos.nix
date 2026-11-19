@@ -24,7 +24,7 @@ let
     };
 
   rice-status = script "rice-status" (with pkgs; [
-    fuzzel networkmanager wireplumber brightnessctl coreutils gnugrep gawk
+    fuzzel networkmanager wireplumber brightnessctl coreutils gawk
   ]);
 
   rice-lock = script "rice-lock" (with pkgs; [ procps coreutils ]);
