@@ -1,11 +1,10 @@
 # System side of the rice: dwl session, scripts, portals, fonts, lock, ssh.
-# Imported from /etc/nixos/configuration.nix.
+# Imported from hosts/nixos/configuration.nix.
 { lib, pkgs, ... }:
 
 let
   # dwl built from the ./dwl submodule (pinned to v0.9) with our config.h.
-  # nixpkgs' recipe is reused but always against wlroots 0.20, which 0.9
-  # needs, so it builds the same on stable (dwl 0.8 recipe) and unstable.
+  # nixpkgs' recipe is reused, but against wlroots 0.20 (which 0.9 needs).
   dwl = (pkgs.dwl.override { configH = ./dwl-config.h; }).overrideAttrs (old: {
     version = "0.9";
     src = lib.cleanSource ./dwl;

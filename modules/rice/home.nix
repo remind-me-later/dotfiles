@@ -1,5 +1,5 @@
 # User side of the rice: bash login, foot, fuzzel, mako in gruvbox + JetBrains Mono, cursor.
-# Imported from /etc/nixos/home.nix.
+# Imported from home/maurizio.nix.
 { pkgs, ... }:
 
 let
@@ -89,7 +89,7 @@ in
     };
   };
 
-  # Only the look; neovim itself is enabled in /etc/nixos/home.nix.
+  # Only the look; neovim itself is enabled in home/maurizio.nix.
   programs.neovim.plugins = [
     {
       plugin = pkgs.vimPlugins.gruvbox-nvim;

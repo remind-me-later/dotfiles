@@ -1,36 +1,38 @@
-# rice
+# dotfiles
 
-dwl (floating), fuzzel, foot. gruvbox dark, JetBrains Mono, rio-style borders, no bar.
+My NixOS laptop as a flake: system, home-manager apps, and the rice:
+dwl (floating), fuzzel, foot, gruvbox dark, JetBrains Mono, rio-style borders, no bar.
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `dwl/` | dwl source, git submodule pinned to `v0.9` |
-| `dwl-config.h` | dwl `config.h` (keys, colors, floating default) |
-| `patches/` | patches applied to dwl at build time (center new windows) |
-| `scripts/` | bash: status menu, lock, wallpaper, battery watcher, screenshots, session startup |
-| `nixos.nix` | system module: builds dwl + scripts, rice-session, portals, fonts, PAM |
-| `home.nix` | home-manager module: bash profile, foot, fuzzel, mako config |
+| `flake.nix` | inputs (nixpkgs unstable, home-manager), the `nixos` machine, dev shell |
+| `hosts/nixos/` | the laptop: boot, network, locale, users, nix settings, hardware scan |
+| `home/maurizio.nix` | my apps through home-manager (git, gh, neovim, firefox, ...) |
+| `modules/rice/nixos.nix` | builds dwl + scripts, `rice-session`, portals, fonts, lock, ssh agent |
+| `modules/rice/home.nix` | bash login, foot, fuzzel, mako, cursor, neovim colors |
+| `modules/rice/dwl/` | dwl source, git submodule pinned to `v0.9` |
+| `modules/rice/dwl-config.h` | dwl `config.h` (keys, colors, floating default) |
+| `modules/rice/patches/` | patches applied to dwl at build time (center new windows) |
+| `modules/rice/scripts/` | bash: status menu, lock, wallpaper, battery watcher, screenshots, session startup |
 
-## Install
+## Use
 
-In `/etc/nixos/configuration.nix`:
-
-```nix
-imports = [ ./hardware-configuration.nix <home-manager/nixos> /home/maurizio/Source/rice/nixos.nix ];
+```sh
+git clone --recurse-submodules git@github.com:remind-me-later/dotfiles.git
+sudo nixos-rebuild switch --flake ~/Source/dotfiles
+nix flake update && sudo nixos-rebuild switch --flake ~/Source/dotfiles   # update everything
 ```
 
-In `/etc/nixos/home.nix`:
+The machine is picked by hostname (`nixos`). Flakes only see files tracked by
+git, so `git add` new files before rebuilding.
 
-```nix
-imports = [ /home/maurizio/Source/rice/home.nix ];
-```
+There is no display manager: log in on tty1 and `~/.profile` runs `rice-session` (dwl).
+Other ttys (`Ctrl+Alt+F2`...) stay plain consoles; quitting dwl logs you out.
 
-Then `sudo nixos-rebuild switch`. There is no display manager: log in on tty1 and `~/.profile` runs `rice-session` (dwl). Other ttys (`Ctrl+Alt+F2`...) stay plain consoles; quitting dwl logs you out.
-
-Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after cloning.
-If `dwl/` is empty, the build fails.
+`nix develop` (or direnv) gives shfmt, shellcheck and nixfmt, and turns on
+`.githooks/pre-commit`, which runs them before every commit.
 
 ## Wallpaper
 
@@ -48,7 +50,7 @@ rice-wallpaper                      # just reload
 |---|---|
 | `Super+Return` | foot |
 | `Super+p` | fuzzel launcher |
-| `Super+l` | status menu (time, battery, wifi → nmtui, volume, brightness, power) |
+| `Super+l` | status menu (time, battery, wifi, volume, brightness) |
 | `Super+Escape` | lock (physlock: text console, type your password) |
 | `Super+1..9` | view tag |
 | `Super+Shift+1..9` | move window to tag |
@@ -68,14 +70,15 @@ rice-wallpaper                      # just reload
 ## Updating dwl
 
 ```sh
-git -C dwl fetch --tags && git -C dwl checkout v0.10
+git -C modules/rice/dwl fetch --tags && git -C modules/rice/dwl checkout v0.10
 # rebase dwl-config.h onto the new dwl/config.def.h, then rebuild
 ```
 
-nixpkgs' dwl recipe is reused (deps, make flags) with `wlroots` swapped in `nixos.nix`; a dwl bump usually means bumping that wlroots too (0.9 needs 0.20).
+nixpkgs' dwl recipe is reused (deps, make flags) with `wlroots` swapped in
+`modules/rice/nixos.nix`; a dwl bump usually means bumping that wlroots too (0.9 needs 0.20).
 
 ## License
 
 BSD 2-Clause, see `LICENSE`, except the files derived from dwl, which keep
-dwl's GPL-3.0 license: `dwl-config.h` (based on dwl's `config.def.h`) and
-everything in `patches/`. dwl itself (`dwl/` submodule) is GPL-3.0.
+dwl's GPL-3.0 license: `modules/rice/dwl-config.h` (based on dwl's `config.def.h`)
+and everything in `modules/rice/patches/`. dwl itself (the submodule) is GPL-3.0.
