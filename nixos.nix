@@ -88,6 +88,9 @@ in
   # Lock screen: physlock, run through rice-lock (Super+Escape, idle, before sleep).
   # Locking before suspend is done by swayidle -> rice-lock rather than the
   # module's service, so an idle lock + suspend never stacks two physlocks.
+  # physlock shows a text console, which the kernel never blanks by default
+  # (consoleblank=0). Blank (panel off) after 60s without a key press.
+  boot.kernelParams = [ "consoleblank=60" ];
   services.physlock = {
     enable = true;
     allowAnyUser = true; # setuid wrapper in /run/wrappers/bin
