@@ -30,6 +30,9 @@ let
   font = "JetBrains Mono";
 in
 {
+  # Dark mode for GTK and portal-aware apps (Firefox...), read via the gtk portal
+  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+
   # Cursor. dwl loads the theme named "default" (not $XCURSOR_THEME), so this
   # also creates icons/default -> Adwaita; without it wlroots falls back to a
   # tiny built-in cursor that doesn't scale. Also sets XCURSOR_* and GTK's cursor.
