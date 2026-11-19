@@ -128,7 +128,7 @@ static const Key keys[] = {
 	/* modifier                  key                  function          argument */
 	{ MODKEY,                    XKB_KEY_p,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
-	{ MODKEY,                    XKB_KEY_s,           spawn,            {.v = statuscmd} },
+	{ MODKEY,                    XKB_KEY_l,           spawn,            {.v = statuscmd} },
 	{ MODKEY,                    XKB_KEY_Escape,      spawn,            {.v = lockcmd} },
 
 	/* media keys */
@@ -187,7 +187,7 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	{ MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
 	{ MODKEY, BTN_MIDDLE, togglefloating, {0} },
-	{ MODKEY|WLR_MODIFIER_ALT, BTN_LEFT, moveresize, {.ui = CurResize} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, BTN_LEFT, moveresize, {.ui = CurResize} },
 };
 
 static const Axis axes[] = { /* needs at least one entry */
