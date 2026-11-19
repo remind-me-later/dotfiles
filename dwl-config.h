@@ -120,7 +120,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
-static const char *menucmd[] = { "fuzzel", "--prompt", "", NULL };
+static const char *menucmd[] = { "fuzzel", NULL };
 static const char *statuscmd[] = { "rice-status", NULL };
 static const char *lockcmd[] = { "rice-lock", NULL };
 

@@ -78,7 +78,7 @@ in
       main = {
         font = "${font}:size=14";
         terminal = "foot";
-        prompt = "'> '";
+        prompt = "''";
         icons-enabled = "no";
         width = 44;
         lines = 12;
