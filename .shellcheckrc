@@ -1,0 +1,2 @@
+# scripts have no shebang (writeShellApplication adds it at build time)
+shell=bash
