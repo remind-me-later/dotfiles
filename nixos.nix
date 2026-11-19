@@ -1,4 +1,4 @@
-# System side of the rice: dwl session, scripts, portals, fonts, PAM.
+# System side of the rice: dwl session, scripts, portals, fonts, lock, ssh.
 # Imported from /etc/nixos/configuration.nix.
 { lib, pkgs, ... }:
 
@@ -93,7 +93,6 @@ let
     export XDG_SESSION_DESKTOP=dwl
     export XDG_SESSION_TYPE=wayland
     export NIXOS_OZONE_WL=1 # Electron/Chromium apps use Wayland
-    export RICE_POLKIT_AGENT=${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
     # dwl's (and every app's) stderr goes to the journal: journalctl -t dwl
     if ! ${pkgs.systemd}/bin/systemd-cat -t dwl --stderr-priority=err \
         ${lib.getExe dwl} -s ${lib.getExe rice-startup}; then
@@ -111,12 +110,7 @@ in
     rice-wallpaper
     pkgs.wl-clipboard
     pkgs.brightnessctl
-    pkgs.adwaita-icon-theme # cursor theme, needed once GNOME is gone
   ];
-
-  # No display manager: log in on the console, ~/.profile starts dwl on tty1.
-  # Unlock the keyring with the console login password.
-  security.pam.services.login.enableGnomeKeyring = true;
 
   # Things GNOME (and later greetd) used to turn on for us
   hardware.graphics.enable = true; # mesa: wlroots can't render without it
@@ -153,10 +147,8 @@ in
     lockOn.suspend = false;
     lockOn.hibernate = false;
   };
-  services.gnome.gnome-keyring.enable = true;
-  # ssh keys: plain OpenSSH agent instead of gnome-keyring's (gcr), so the
-  # passphrase is asked in the terminal on first use and kept until logout.
-  services.gnome.gcr-ssh-agent.enable = false;
+  # ssh keys: the passphrase is asked in the terminal on first use and kept
+  # by ssh-agent until logout. No gnome-keyring: gh keeps its token in a file.
   programs.ssh.startAgent = true;
   programs.ssh.extraConfig = "AddKeysToAgent yes";
   programs.dconf.enable = true; # GTK settings (dark theme etc.) live in dconf
