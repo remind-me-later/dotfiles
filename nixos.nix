@@ -154,5 +154,10 @@ in
     lockOn.hibernate = false;
   };
   services.gnome.gnome-keyring.enable = true;
+  # ssh keys: plain OpenSSH agent instead of gnome-keyring's (gcr), so the
+  # passphrase is asked in the terminal on first use and kept until logout.
+  services.gnome.gcr-ssh-agent.enable = false;
+  programs.ssh.startAgent = true;
+  programs.ssh.extraConfig = "AddKeysToAgent yes";
   programs.dconf.enable = true; # GTK settings (dark theme etc.) live in dconf
 }
