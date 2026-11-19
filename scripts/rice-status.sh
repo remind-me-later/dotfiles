@@ -1,19 +1,18 @@
 # rice-status: a status bar that lives in a fuzzel menu.
-# Shows time/battery/wifi/volume/brightness; pick a line to act on it
-# (wifi opens nmtui in foot).
 
-menu() { # menu PROMPT  (reads entries on stdin, prints the chosen one)
-	fuzzel --dmenu --minimal-lines --prompt "$1 " "${@:2}"
+menu() {
+	fuzzel --dmenu --minimal-lines --prompt ""
 }
-
-notify() { notify-send -a rice "$@"; }
 
 ## readers ###################################################################
 
 bat_dir=/sys/class/power_supply/BAT0
 
 battery_line() {
-	[[ -d $bat_dir ]] || { echo "no battery"; return; }
+	[[ -d $bat_dir ]] || {
+		echo "no battery"
+		return
+	}
 	local cap status now full rate left=""
 	cap=$(<"$bat_dir/capacity")
 	status=$(<"$bat_dir/status")
@@ -54,60 +53,22 @@ wifi_line() {
 volume_line() {
 	# "Volume: 0.45" or "Volume: 0.45 [MUTED]"
 	local out vol
-	out=$(wpctl get-volume @DEFAULT_AUDIO_SINK@) || { echo "?"; return; }
+	out=$(wpctl get-volume @DEFAULT_AUDIO_SINK@) || {
+		echo "?"
+		return
+	}
 	vol=$(awk '{printf "%d", $2 * 100 + 0.5}' <<<"$out")
 	[[ $out == *MUTED* ]] && echo "${vol}%  muted" || echo "${vol}%"
 }
 
 light_line() { brightnessctl -m | cut -d, -f4; }
 
-## submenus ##################################################################
-
-volume_menu() {
-	local choice
-	choice=$(printf '%s\n' "toggle mute" 100 75 50 25 10 | menu "volume>") || exit 0
-	case $choice in
-	"toggle mute") wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
-	*) wpctl set-volume @DEFAULT_AUDIO_SINK@ "${choice}%" ;;
-	esac
-}
-
-light_menu() {
-	local choice
-	choice=$(printf '%s\n' 100 75 50 25 10 | menu "brightness>") || exit 0
-	brightnessctl -q set "${choice}%"
-}
-
-power_menu() {
-	local choice
-	choice=$(printf '%s\n' lock suspend logout reboot poweroff | menu "power>") || exit 0
-	case $choice in
-	lock) rice-lock ;;
-	suspend) systemctl suspend ;;
-	logout) pkill -TERM -x dwl ;;
-	reboot) systemctl reboot ;;
-	poweroff) systemctl poweroff ;;
-	esac
-}
-
 ## main ######################################################################
 
-choice=$(
-	printf '%-8s %s\n' \
-		time "$(date '+%H:%M  %a %d %b')" \
-		battery "$(battery_line)" \
-		wifi "$(wifi_line)" \
-		volume "$(volume_line)" \
-		light "$(light_line)" \
-		power "lock / suspend / logout / reboot / poweroff" |
-		menu "status>"
-) || exit 0
-
-case ${choice%% *} in
-time) notify -t 10000 "$(date '+%A %d %B %Y')" "$(cal)" ;;
-battery) notify "battery" "$(battery_line)" ;;
-wifi) exec foot nmtui ;;
-volume) volume_menu ;;
-light) light_menu ;;
-power) power_menu ;;
-esac
+printf '%-8s %s\n' \
+	time "$(date '+%H:%M  %a %d %b')" \
+	battery "$(battery_line)" \
+	wifi "$(wifi_line)" \
+	volume "$(volume_line)" \
+	light "$(light_line)" |
+	menu || true # Escape makes fuzzel exit 1
