@@ -136,6 +136,10 @@ static const Key keys[] = {
 	{ 0, XKB_KEY_XF86AudioLowerVolume,  spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") },
 	{ 0, XKB_KEY_XF86AudioMute,         spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") },
 	{ 0, XKB_KEY_XF86AudioMicMute,      spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle") },
+	{ 0, XKB_KEY_XF86AudioPlay,         spawn, SHCMD("playerctl play-pause") },
+	{ 0, XKB_KEY_XF86AudioPause,        spawn, SHCMD("playerctl play-pause") },
+	{ 0, XKB_KEY_XF86AudioNext,         spawn, SHCMD("playerctl next") },
+	{ 0, XKB_KEY_XF86AudioPrev,         spawn, SHCMD("playerctl previous") },
 	{ 0, XKB_KEY_XF86MonBrightnessUp,   spawn, SHCMD("brightnessctl -q set 5%+") },
 	{ 0, XKB_KEY_XF86MonBrightnessDown, spawn, SHCMD("brightnessctl -q -n1 set 5%-") },
 

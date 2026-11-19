@@ -104,6 +104,27 @@ in
     }
   ];
 
+  # Only the colors; ncspot itself is enabled in home/maurizio.nix.
+  programs.ncspot.settings.theme = {
+    background = "#${c.bg0}";
+    primary = "#${c.fg}";
+    secondary = "#${c.gray}";
+    title = "#${c.yellow}";
+    playing = "#${c.yellow}";
+    playing_selected = "#${c.byellow}";
+    playing_bg = "#${c.bg0}";
+    highlight = "#${c.fg}";
+    highlight_bg = "#${c.bg2}";
+    error = "#${c.fg}";
+    error_bg = "#${c.red}";
+    statusbar = "#${c.yellow}";
+    statusbar_progress = "#${c.yellow}";
+    statusbar_bg = "#${c.bg1}";
+    cmdline = "#${c.fg}";
+    cmdline_bg = "#${c.bg0}";
+    search_match = "#${c.bred}";
+  };
+
   programs.fuzzel = {
     enable = true;
     settings = {

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   imports = [ ../modules/rice/home.nix ];
@@ -68,7 +68,7 @@
     nix-direnv.enable = true;
   };
 
-  home.packages = [ pkgs.spotify ];
+  programs.ncspot.enable = true; # Spotify in the terminal (needs Premium)
 
   programs.home-manager.enable = true;
   home.stateVersion = "26.05";

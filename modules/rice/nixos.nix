@@ -109,6 +109,7 @@ in
     rice-wallpaper
     pkgs.wl-clipboard
     pkgs.brightnessctl
+    pkgs.playerctl # media keys -> ncspot, firefox (MPRIS)
   ];
 
   # Things GNOME (and later greetd) used to turn on for us
