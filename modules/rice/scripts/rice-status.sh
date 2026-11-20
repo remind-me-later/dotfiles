@@ -9,19 +9,33 @@ battery_line() {
 }
 
 wifi_line() {
-	if [[ $(nmcli radio wifi) != enabled ]]; then
+	local dev flags key value ssid="" dbm=""
+	for dev in /sys/class/net/*/wireless; do
+		dev=${dev%/wireless}
+		break
+	done
+	[[ -d $dev ]] || { echo "no device" && return; }
+	# iwd powers the device off (or rfkill blocks it) -> the link goes down
+	flags=$(<"$dev/flags")
+	if ((! (flags & 1))); then
 		echo "off"
 		return
 	fi
-	local in_use signal ssid
-	# -t escapes ':' inside fields as '\:'; the last field (ssid) gets the rest
-	while IFS=: read -r in_use signal ssid; do
-		if [[ $in_use == '*' ]]; then
-			echo "${ssid//\\:/:}  ${signal}%"
-			return
-		fi
-	done < <(nmcli -t -f IN-USE,SIGNAL,SSID device wifi list --rescan no)
-	echo "disconnected"
+	while read -r key value; do
+		case $key in
+		SSID:) ssid=$value ;;
+		signal:) dbm=${value%% *} ;;
+		esac
+	done < <(iw dev "${dev##*/}" link)
+	if [[ -z $ssid ]]; then
+		echo "disconnected"
+		return
+	fi
+	# dBm -> % the way NetworkManager did it: -100 is 0%, -50 and up is 100%
+	local pct=$((2 * (dbm + 100)))
+	((pct > 100)) && pct=100
+	((pct < 0)) && pct=0
+	echo "$ssid  $pct%"
 }
 
 volume_line() {

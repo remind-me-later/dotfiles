@@ -27,7 +27,7 @@ let
     with pkgs;
     [
       fuzzel
-      networkmanager
+      iw
       wireplumber
       brightnessctl
       coreutils

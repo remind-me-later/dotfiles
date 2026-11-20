@@ -19,6 +19,40 @@
 
   programs.firefox = {
     enable = true;
+    # the existing profile (look in modules/rice/home.nix)
+    profiles.default = {
+      path = "fmoz1v8i.default";
+      isDefault = true;
+    };
+    # Enterprise policies (see about:policies). Extensions come from
+    # addons.mozilla.org and update themselves; removing one here uninstalls it.
+    policies = {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      DisablePocket = true;
+      DontCheckDefaultBrowser = true;
+      FirefoxHome = {
+        SponsoredTopSites = false;
+        SponsoredPocket = false;
+      };
+      FirefoxSuggest = {
+        SponsoredSuggestions = false;
+        ImproveSuggest = false;
+      };
+      UserMessaging = {
+        ExtensionRecommendations = false;
+        FeatureRecommendations = false;
+        MoreFromMozilla = false;
+        SkipOnboarding = true;
+      };
+      ExtensionSettings = {
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "force_installed";
+          private_browsing = true;
+        };
+      };
+    };
   };
 
   # Default apps (~/.config/mimeapps.list, now read-only)

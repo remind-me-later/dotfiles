@@ -63,7 +63,7 @@ in
     settings = {
       main = {
         font = "${font}:size=14";
-        pad = "12x12 center"; # inner border around the text
+        pad = "24x16 center"; # inner border around the text
         initial-window-size-chars = "80x24";
       };
       colors-dark = {
@@ -103,6 +103,68 @@ in
       '';
     }
   ];
+
+  # Firefox chrome (tabs, toolbar, menus) in gruvbox, square, JetBrains Mono.
+  # Page content is untouched; it follows dark mode via dconf.
+  programs.firefox.profiles.default = {
+    settings = {
+      "toolkit.legacyUserProfileCustomizations.stylesheets" = true; # read userChrome.css
+      "browser.compactmode.show" = true;
+      "browser.uidensity" = 1; # compact
+    };
+    userChrome = ''
+      * {
+        font-family: "${font}" !important;
+      }
+      :root {
+        --toolbox-bgcolor: #${c.bg0} !important;
+        --toolbox-bgcolor-inactive: #${c.bg0} !important;
+        --toolbox-textcolor: #${c.fg} !important;
+        --toolbox-textcolor-inactive: #${c.fg4} !important;
+        --lwt-accent-color: #${c.bg0} !important;
+        --lwt-text-color: #${c.fg} !important;
+        --toolbar-bgcolor: #${c.bg1} !important;
+        --toolbar-color: #${c.fg} !important;
+        --toolbar-field-background-color: #${c.bg0} !important;
+        --toolbar-field-color: #${c.fg} !important;
+        --toolbar-field-focus-background-color: #${c.bg0} !important;
+        --toolbar-field-focus-color: #${c.fg} !important;
+        --toolbar-field-border-color: #${c.bg3} !important;
+        --toolbar-field-focus-border-color: #${c.fg} !important;
+        --focus-outline-color: #${c.fg} !important;
+        --tab-selected-bgcolor: #${c.bg1} !important;
+        --tab-selected-textcolor: #${c.fg} !important;
+        --tab-hover-background-color: #${c.bg2} !important;
+        --toolbarbutton-hover-background: #${c.bg2} !important;
+        --toolbarbutton-active-background: #${c.bg3} !important;
+        --arrowpanel-background: #${c.bg0} !important;
+        --arrowpanel-color: #${c.fg} !important;
+        --arrowpanel-border-color: #${c.fg} !important;
+        --panel-separator-color: #${c.bg3} !important;
+        --urlbarView-highlight-background: #${c.bg2} !important;
+        --urlbarView-highlight-color: #${c.fg} !important;
+        --sidebar-background-color: #${c.bg0} !important;
+        --sidebar-text-color: #${c.fg} !important;
+        --chrome-content-separator-color: #${c.bg3} !important;
+        /* square everything */
+        --border-radius-small: 0 !important;
+        --border-radius-medium: 0 !important;
+        --border-radius-large: 0 !important;
+        --tab-border-radius: 0 !important;
+        --toolbarbutton-border-radius: 0 !important;
+        --arrowpanel-border-radius: 0 !important;
+      }
+      .tab-background,
+      #urlbar-background,
+      #searchbar {
+        border-radius: 0 !important;
+      }
+      /* the selected tab gets a cream edge, like a focused window */
+      .tabbrowser-tab[selected] .tab-background {
+        box-shadow: inset 0 -2px 0 #${c.fg} !important;
+      }
+    '';
+  };
 
   programs.fuzzel = {
     enable = true;
@@ -144,11 +206,11 @@ in
     font=${font} 14
     background-color=#${c.bg0}
     text-color=#${c.fg}
-    border-color=#${c.yellow}
+    border-color=#${c.fg}
     progress-color=over #${c.bg2}
     border-size=4
     border-radius=0
-    padding=10
+    padding=16
     margin=12
     width=440
     default-timeout=5000
