@@ -66,7 +66,7 @@ in
     settings = {
       main = {
         font = "${font}:size=14";
-        pad = "24x16 center"; # inner border around the text
+        pad = "20x20 center"; # inner border around the text
         initial-window-size-chars = "80x24";
       };
       # No scrollback: page long output on purpose (cmd | less, cmd 2>&1 | less)
