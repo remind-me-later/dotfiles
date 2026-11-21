@@ -28,4 +28,7 @@ in
   ];
   # was on through enableRedistributableFirmware
   hardware.cpu.intel.updateMicrocode = true;
+  # Wi-Fi channel/power rules per country (regulatory.db); NixOS turns this on
+  # for wpa_supplicant but not for iwd
+  hardware.wirelessRegulatoryDatabase = true;
 }
