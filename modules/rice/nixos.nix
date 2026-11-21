@@ -118,6 +118,8 @@ in
   fonts.packages = with pkgs; [
     jetbrains-mono
     noto-fonts
+    nerd-fonts.symbols-only # icons only (microfetch...), used as a fallback
+    julia-mono # math symbols, foot falls back to it (home.nix)
   ];
   services.power-profiles-daemon.enable = true; # powerprofilesctl set power-saver|balanced|performance
 

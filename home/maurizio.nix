@@ -1,10 +1,15 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [ ../modules/rice/home.nix ];
 
   home.username = "maurizio";
   home.homeDirectory = "/home/maurizio";
+
+  # Plain packages, no home-manager module needed
+  home.packages = [
+    pkgs.microfetch
+  ];
 
   programs.gh = {
     enable = true;

@@ -65,7 +65,8 @@ in
     enable = true;
     settings = {
       main = {
-        font = "${font}:size=14";
+        # JuliaMono only for what JetBrains Mono lacks (Lean/Mathlib math: 𝓝 ⥤ ⧸ ᶜ ...)
+        font = "${font}:size=14, JuliaMono:size=14";
         pad = "20x20 center"; # inner border around the text
         initial-window-size-chars = "80x24";
       };
