@@ -44,6 +44,9 @@ in
     gtk.enable = true;
   };
 
+  # less shows colors from piped output (foot has no scrollback, see below)
+  home.sessionVariables.LESS = "-R";
+
   # Login on tty1 starts the dwl session; other ttys stay plain consoles.
   # When dwl quits you're logged out back to the login prompt.
   programs.bash = {
@@ -66,6 +69,8 @@ in
         pad = "24x16 center"; # inner border around the text
         initial-window-size-chars = "80x24";
       };
+      # No scrollback: page long output on purpose (cmd | less, cmd 2>&1 | less)
+      scrollback.lines = 0;
       colors-dark = {
         background = c.bg0;
         foreground = c.fg;
